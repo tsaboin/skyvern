@@ -121,7 +121,10 @@ class Settings(BaseSettings):
     SINGLE_CLICK_AGENT_LLM_KEY: str | None = None
     SINGLE_INPUT_AGENT_LLM_KEY: str | None = None
     PROMPT_BLOCK_LLM_KEY: str | None = None
+    PARSE_SELECT_LLM_KEY: str | None = None
     EXTRACTION_LLM_KEY: str | None = None
+    CHECK_USER_GOAL_LLM_KEY: str | None = None
+    AUTO_COMPLETION_LLM_KEY: str | None = None
     # COMMON
     LLM_CONFIG_TIMEOUT: int = 300
     LLM_CONFIG_MAX_TOKENS: int = 4096
@@ -245,6 +248,8 @@ class Settings(BaseSettings):
 
     # GEMINI
     GEMINI_API_KEY: str | None = None
+    GEMINI_INCLUDE_THOUGHT: bool = False
+    GEMINI_THINKING_BUDGET: int | None = None
 
     # VERTEX_AI
     VERTEX_CREDENTIALS: str | None = None
@@ -302,7 +307,7 @@ class Settings(BaseSettings):
     SVG_MAX_LENGTH: int = 100000
 
     ENABLE_LOG_ARTIFACTS: bool = False
-    ENABLE_CODE_BLOCK: bool = False
+    ENABLE_CODE_BLOCK: bool = True
 
     TASK_BLOCKED_SITE_FALLBACK_URL: str = "https://www.google.com"
 
@@ -329,7 +334,7 @@ class Settings(BaseSettings):
     TRACE_PROVIDER_API_KEY: str = "fillmein"
 
     # Debug Session Settings
-    DEBUG_SESSION_TIMEOUT_MINUTES: int = 60 * 4
+    DEBUG_SESSION_TIMEOUT_MINUTES: int = 20
     """
     The timeout for a persistent browser session backing a debug session,
     in minutes.
@@ -347,6 +352,9 @@ class Settings(BaseSettings):
     ENCRYPTOR_AES_SALT: str | None = None
     ENCRYPTOR_AES_IV: str | None = None
 
+    # script generation settings
+    WORKFLOW_START_BLOCK_LABEL: str = "__start_block__"
+
     def get_model_name_to_llm_key(self) -> dict[str, dict[str, str]]:
         """
         Keys are model names available to blocks in the frontend. These map to key names
@@ -359,6 +367,10 @@ class Settings(BaseSettings):
                 "gemini-2.5-flash-preview-05-20": {
                     "llm_key": "VERTEX_GEMINI_2.5_FLASH",
                     "label": "Gemini 2.5 Flash",
+                },
+                "gemini-2.5-flash-lite": {
+                    "llm_key": "VERTEX_GEMINI_2.5_FLASH_LITE",
+                    "label": "Gemini 2.5 Flash Lite",
                 },
                 "azure/gpt-4.1": {"llm_key": "AZURE_OPENAI_GPT4_1", "label": "GPT 4.1"},
                 "azure/gpt-5": {"llm_key": "AZURE_OPENAI_GPT5", "label": "GPT 5"},
@@ -387,6 +399,10 @@ class Settings(BaseSettings):
                 "gemini-2.5-flash-preview-05-20": {
                     "llm_key": "VERTEX_GEMINI_2.5_FLASH",
                     "label": "Gemini 2.5 Flash",
+                },
+                "gemini-2.5-flash-lite": {
+                    "llm_key": "VERTEX_GEMINI_2.5_FLASH_LITE",
+                    "label": "Gemini 2.5 Flash Lite",
                 },
                 "azure/gpt-4.1": {"llm_key": "AZURE_OPENAI_GPT4_1", "label": "GPT 4.1"},
                 "azure/gpt-5": {"llm_key": "AZURE_OPENAI_GPT5", "label": "GPT 5"},

@@ -12,13 +12,20 @@ export type WorkflowStartNodeData = {
   maxScreenshotScrolls: number | null;
   extraHttpHeaders: string | null;
   editable: boolean;
-  useScriptCache: boolean;
+  runWith: string | null;
   scriptCacheKey: string | null;
+  aiFallback: boolean;
+  runSequentially: boolean;
+  sequentialKey: string | null;
+  label: "__start_block__";
+  showCode: boolean;
 };
 
 export type OtherStartNodeData = {
   withWorkflowSettings: false;
   editable: boolean;
+  label: "__start_block__";
+  showCode: boolean;
 };
 
 export type StartNodeData = WorkflowStartNodeData | OtherStartNodeData;
